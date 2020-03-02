@@ -7,8 +7,8 @@
 "编辑器设置
 
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
-	silent !git clone https://gitee.com/kylejkc/Vim-Plug.git ~/.vim/autoload
-	autocmd VimEnter * PlugInstall --sync | source ~/.config/nvim/init.vim
+        silent !git clone https://gitee.com/kylejkc/Vim-Plug.git ~/.vim/autoload
+        autocmd VimEnter * PlugInstall --sync | source ~/.config/nvim/init.vim
 endif
 
 "------------
@@ -30,7 +30,7 @@ let g:mapleader=" "
 noremap w k
 noremap s j
 noremap a h
-noremap d l 
+noremap d l
 noremap <C-w> kkkk
 noremap <C-s> jjjj
 noremap rr gg
@@ -50,73 +50,52 @@ noremap <LEADER>n :new<CR>
 noremap e i
 noremap c d
 map <LEADER>sc :set spell!<CR>
-"输入法切换配置
-let g:input_toggle = 0
-function! Fcitx2en()
-let s:input_status = system("fcitx-remote")
-if s:input_status == 2
-let g:input_toggle = 1
-let l:a = system("fcitx-remote -c")
-endif
-endfunction
-
-function! Fcitx2zh()
-let s:input_status = system("fcitx-remote")
-if s:input_status != 2 && g:input_toggle == 1
-let l:a = system("fcitx-remote -o")
-let g:input_toggle = 0
-endif
-endfunction
-
-autocmd InsertLeave * call Fcitx2en()
-autocmd InsertEnter * call Fcitx2zh()
-
 "------------
 
 "语言配置
 
 "运行语言脚本
-noremap l :call CompileRunGcc()<CR>
+noremap <LEADER>rk :call CompileRunGcc()<CR>
 func! CompileRunGcc()
-	exec "w"
-	if &filetype == 'c'
-		exec "!g++ % -o %<"
-		exec "!time ./%<"
-	elseif &filetype == 'cpp'
-		set splitbelow
-		:sp 
+        exec "w"
+        if &filetype == 'c'
+                exec "!g++ % -o %<"
+                exec "!time ./%<"
+        elseif &filetype == 'cpp'
+                set splitbelow
+                :sp
                 exec "!g++ -std=c++11 % -Wall -o %<"
-		:term ./%<
-	elseif &filetype == 'java'
-		exec "!javac %"
-		exec "!time java %<"
-	elseif &filetype == 'sh'
-		:!time bash %
-	elseif &filetype == 'python'
-		set splitbelow
-		:sp
-		:term python3 %
-	elseif &filetype == 'html'
-		silent! exec "!".g:mkdp_browser." % &"
-	elseif &filetype == 'markdown'
-		exec "MarkdownPreview"
-	elseif &filetype == 'tex'
-		silent! exec "VimtexStop"
-		silent! exec "VimtexCompile"
-	elseif &filetype == 'dart'
-		CocCommand flutter.run
-	elseif &filetype == 'go'
-		set splitbelow
-		:sp
-		:term go run %
-	endif
+                :term ./%<
+        elseif &filetype == 'java'
+                exec "!javac %"
+                exec "!time java %<"
+        elseif &filetype == 'sh'
+                :!time bash %
+        elseif &filetype == 'python'
+                set splitbelow
+                :sp
+                :term python3 %
+        elseif &filetype == 'html'
+                silent! exec "!".g:mkdp_browser." % &"
+        elseif &filetype == 'markdown'
+                exec "MarkdownPreview"
+        elseif &filetype == 'tex'
+                silent! exec "VimtexStop"
+                silent! exec "VimtexCompile"
+        elseif &filetype == 'dart'
+                CocCommand flutter.run
+        elseif &filetype == 'go'
+                set splitbelow
+                :sp
+                :term go run %
+        endif
 endfunc
 
 "当创建C++文件时，自动生成配置
 
 autocmd BufNewFile *.cpp exec ":call SetTitle()"
 func SetTitle()
-if expand("%:e") == "cpp" 
+if expand("%:e") == "cpp"
          call setline(1,"/*")
          call setline(2,"*******************************************************************")
          call setline(3,"Author:                KyleJKC")
@@ -129,7 +108,7 @@ if expand("%:e") == "cpp"
          call setline(10,"")
          call setline(11,"int main(int argc, const char *argv[]){")
          call setline(12,"")
-         call setline(13,"  return0;")
+         call setline(13,"  return 0;")
          call setline(14,"}")
 endif
 endfunc
@@ -291,7 +270,7 @@ command! -bang -nargs=* Rg
   \   <bang>0 ? fzf#vim#with_preview('up:60%')
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
- 
+
 " 在当前目录搜索文件
 nnoremap <Leader>f :Files<CR>
 " 切换 Buffer
@@ -303,6 +282,20 @@ nnoremap <Leader>bl :BLines<CR>
 " 在 Vim 打开的历史文件中搜索，相当于是在 MRU 中搜索
 nnoremap <Leader>h :History<CR>
 
+"MarkdownPreview2设置
+" filetype plugin on
+"Uncomment to override defaults:
+" let g:instant_markdown_slow = 1
+" let g:instant_markdown_autostart = 1
+" let g:instant_markdown_open_to_the_world = 1
+" let g:instant_markdown_allow_unsafe_content = 1
+" let g:instant_markdown_allow_external_content = 0
+" let g:instant_markdown_mathjax = 1
+" let g:instant_markdown_logfile = '/tmp/instant_markdown.log'
+" let g:instant_markdown_autoscroll = 0
+" let g:instant_markdown_port = 8888
+" let g:instant_markdown_python = 1
+
 "MarkdownPreview设置
 let g:mkdp_auto_start = 0
 let g:mkdp_auto_close = 1
@@ -311,7 +304,7 @@ let g:mkdp_command_for_global = 0
 let g:mkdp_open_to_the_world = 0
 let g:mkdp_open_ip = ''
 let g:mkdp_browser = 'chromium'
-let g:mkdp_echo_preview_url = 0
+let g:mkdp_echo_preview_url = 1
 let g:mkdp_browserfunc = ''
 let g:mkdp_preview_options = {
     \ 'mkit': {},
@@ -359,7 +352,7 @@ let NERDTreeIgnore = [ '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.egg$', '^\.git$'
 "autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
 " 关闭 NERDTree，当没有文件打开的时候
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | end
- 
+
 " <leader>nt 打开 nerdtree 窗口，在左侧栏显示
 map <leader>nt :NERDTreeToggle<CR>
 " <leader>tc 关闭当前的 tab
@@ -395,7 +388,7 @@ let g:cpp_experimental_template_highlight = 1
 let g:cpp_concepts_highlight = 1
 
 "auto-pairs设置
-let g:AutoPairs = {',':' ','(':')', '[':']', '{':'}',"'":"'",'"':'"', "`":"`", '```':'```', '"""':'"""', "'''":"'''"} 
+let g:AutoPairs = {',':' ','(':')', '[':']', '{':'}',"'":"'",'"':'"', "`":"`", '```':'```', '"""':'"""', "'''":"'''"}
 
 "Nerd-Tree设置
 nmap <F2> :NERDTreeToggle<CR>
@@ -406,18 +399,18 @@ nmap <F2> :NERDTreeToggle<CR>
 
 "Starify设置
 let g:startify_custom_header = [
-\' _   _           __   __                 ____            _', 
-\'| | | |___  ___  \ \ / /__  _   _ _ __  | __ ) _ __ ____(_)____', 
-\'| | | / __|/ _ \  \ V / _ \| | | |  __| |  _ \|  __/ _  | |  _ \', 
-\'| |_| \__ \  __/   | | (_) | |_| | |    | |_) | | | (_| | | | | |', 
-\' \___/|___/\___|   |_|\___/ \____|_|    |____/|_|  \____|_|_| |_|', 
+\' _   _           __   __                 ____            _',
+\'| | | |___  ___  \ \ / /__  _   _ _ __  | __ ) _ __ ____(_)____',
+\'| | | / __|/ _ \  \ V / _ \| | | |  __| |  _ \|  __/ _  | |  _ \',
+\'| |_| \__ \  __/   | | (_) | |_| | |    | |_) | | | (_| | | | | |',
+\' \___/|___/\___|   |_|\___/ \____|_|    |____/|_|  \____|_|_| |_|',
 \]
 
 "Airline设置
-let g:airline_theme="luna" 
+let g:airline_theme="hybrid"
 
-"这个是安装字体后 必须设置此项" 
-let g:airline_powerline_fonts = 1   
+"这个是安装字体后 必须设置此项"
+let g:airline_powerline_fonts = 1
 
 "打开tabline功能,方便查看Buffer和切换，这个功能比较不错"
 "我还省去了minibufexpl插件，因为我习惯在1个Tab下用多个buffer"
@@ -453,8 +446,9 @@ Plug 'arcticicestudio/nord-vim'
 Plug 'w0ng/vim-hybrid'
 Plug 'KKPMW/sacredforest-vim'
 Plug 'connorholyday/vim-snazzy'
+Plug 'kristijanhusak/vim-hybrid-material'
 "功能插件
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install_sync() } }
+Plug 'iamcco/markdown-preview.nvim', {'do':'cd app & npm install'}
 Plug 'chrisbra/changesPlugin'
 Plug 'sbdchd/neoformat'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
@@ -473,6 +467,15 @@ call plug#end()
 
 "主题插件设置
 
+let g:enable_bold_font=1
+let g:enable_italic_font=1
+if (has("nvim"))
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+endif
+if (has("termguicolors"))
+set termguicolors
+endif
+
 set background=dark
-colorscheme snazzy
+colorscheme hybrid_material
 "------------
